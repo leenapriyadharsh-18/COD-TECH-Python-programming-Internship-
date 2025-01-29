@@ -1,0 +1,19 @@
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+
+def chatbot_response(user_input):
+    doc = nlp(user_input.lower())
+    if "name" in user_input:
+        return "I'm a chatbot!"
+    elif "how are you" in user_input:
+        return "I'm fine, thanks for asking!"
+    else:
+        return "I'm not sure how to respond to that."
+
+while True:
+    user_input = input("You: ")
+    if user_input.lower() in ["bye", "exit"]:
+        print("Chatbot: Goodbye!")
+        break
+    print("Chatbot:", chatbot_response(user_input))
