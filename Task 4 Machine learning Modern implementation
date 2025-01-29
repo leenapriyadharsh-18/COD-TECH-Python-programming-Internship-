@@ -1,0 +1,16 @@
+# Train the model
+model = MultinomialNB()
+model.fit(X_train_tfidf, y_train)
+
+# Predict on test data
+y_pred = model.predict(X_test_tfidf)
+
+# Evaluate model performance
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Classification Report:\n", classification_report(y_test, y_pred))
+
+# Confusion Matrix
+sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt="d", cmap="Blues")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
