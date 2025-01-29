@@ -1,0 +1,33 @@
+import requests
+import matplotlib.pyplot as plt
+import pandas as pd
+
+API_KEY = "your_api_key"
+CITY = "New York"
+URL = f"http://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={API_KEY}&units=metric"
+
+response = requests.get(URL)
+data = response.json()
+
+if response.status_code == 200:
+    forecast_data = data['list']
+
+    # Extract temperature and timestamps
+    dates = [entry['dt_txt'] for entry in forecast_data]
+    temperatures = [entry['main']['temp'] for entry in forecast_data]
+
+    # Convert to DataFrame for better handling
+    df = pd.DataFrame({'Date': dates, 'Temperature': temperatures})
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    # Plot temperature trend
+    plt.figure(figsize=(10, 5))
+    plt.plot(df['Date'], df['Temperature'], marker='o', linestyle='-', color='b')
+    plt.xlabel("Date & Time")
+    plt.ylabel("Temperature (°C)")
+    plt.title(f"Temperature Forecast for {CITY}")
+    plt.xticks(rotation=45)
+    plt.grid()
+    plt.show()
+else:
+    print("Error fetching forecast data:", data["message"])
