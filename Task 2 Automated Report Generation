@@ -1,0 +1,18 @@
+from fpdf import FPDF
+
+pdf = FPDF()
+pdf.set_auto_page_break(auto=True, margin=15)
+pdf.add_page()
+
+# Title
+pdf.set_font("Arial", "B", 16)
+pdf.cell(200, 10, "Automated Report", ln=True, align="C")
+
+# Add summary data
+pdf.set_font("Arial", "", 12)
+for col in summary.columns:
+    pdf.cell(200, 10, f"{col}: {summary[col]['mean']:.2f}", ln=True)
+
+# Save the PDF
+pdf.output("Report.pdf")
+print("Report Generated Successfully!")
